@@ -8,14 +8,14 @@ actor MockQuickService: QuickService {
     var sendCallCount: Int = 0
     var lastPrompt: String?
 
-    func send(prompt: String) -> AsyncThrowingStream<StreamDelta, Error> {
-        sendCallCount += 1
-        lastPrompt = prompt
-        let responses = responses
-        let shouldThrow = shouldThrow
-        let delay = delay
-        return AsyncThrowingStream { continuation in
+    nonisolated func send(prompt: String) -> AsyncThrowingStream<StreamDelta, Error> {
+        // Capture needed state before entering actor context
+        AsyncThrowingStream { continuation in
             Task {
+                let responses = await self.responses
+                let shouldThrow = await self.shouldThrow
+                let delay = await self.delay
+                await self.recordCall(prompt: prompt)
                 if shouldThrow {
                     continuation.finish(throwing: MockError.intentional)
                     return
@@ -31,7 +31,12 @@ actor MockQuickService: QuickService {
         }
     }
 
-    func healthCheck() async throws -> Bool { true }
+    private func recordCall(prompt: String) {
+        sendCallCount += 1
+        lastPrompt = prompt
+    }
+
+    nonisolated func healthCheck() async throws -> Bool { true }
 
     enum MockError: Error {
         case intentional
