@@ -7,7 +7,7 @@ import AppKit
 // They define the intended API and will compile once QuickViewModel is implemented.
 
 @MainActor
-@Suite("QuickViewModel")
+@Suite("QuickViewModel", .serialized)
 struct QuickViewModelTests {
 
     // MARK: - 1. Streaming output accumulates correctly
