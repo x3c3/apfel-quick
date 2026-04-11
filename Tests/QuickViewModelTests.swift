@@ -316,6 +316,92 @@ struct QuickViewModelTests {
         #expect(vm.output == "real text")
     }
 
+    // MARK: - 23. Math expressions are evaluated locally
+
+    @Test func testMathExpressionIsEvaluatedLocally() async throws {
+        // No service connected — must still work
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = false
+        vm.input = "2+2"
+        await vm.submit()
+        #expect(vm.output == "4")
+        #expect(vm.errorMessage == nil)
+    }
+
+    @Test func testMathExpressionDoesNotUseService() async throws {
+        let service = MockQuickService()
+        await service.setShouldThrow(true)  // any real AI call would throw
+        let vm = QuickViewModel(service: service)
+        vm.settings.autoCopy = false
+        vm.input = "3*7"
+        await vm.submit()
+        #expect(vm.output == "21")
+        #expect(vm.errorMessage == nil)
+    }
+
+    @Test func testMathExpressionAutoCopyEnabled() async throws {
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = true
+        vm.input = "10/2"
+        await vm.submit()
+        #expect(vm.output == "5")
+        let clip = NSPasteboard.general.string(forType: .string)
+        #expect(clip == "5")
+    }
+
+    @Test func testMathExpressionAutoCopyDisabled() async throws {
+        // Clear clipboard first
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString("before", forType: .string)
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = false
+        vm.input = "4+4"
+        await vm.submit()
+        #expect(vm.output == "8")
+        // Clipboard must NOT have changed
+        let clip = NSPasteboard.general.string(forType: .string)
+        #expect(clip == "before")
+    }
+
+    @Test func testMathExpressionDoesNotSetIsStreaming() async throws {
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = false
+        vm.input = "100-1"
+        await vm.submit()
+        #expect(vm.isStreaming == false)
+    }
+
+    @Test func testMathExpressionEuropeanDecimal() async throws {
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = false
+        vm.input = "54,34*6"
+        await vm.submit()
+        // 54.34 * 6 = 326.04
+        #expect(vm.output == "326.04")
+        #expect(vm.errorMessage == nil)
+    }
+
+    @Test func testMathDivisionByZeroSetsError() async throws {
+        let vm = QuickViewModel(service: nil)
+        vm.settings.autoCopy = false
+        vm.input = "1/0"
+        await vm.submit()
+        #expect(vm.output == "")
+        #expect(vm.errorMessage != nil)
+    }
+
+    @Test func testNaturalLanguageStillGoesToService() async throws {
+        let service = MockQuickService()
+        await service.setResponses([
+            StreamDelta(text: "42", finishReason: "stop"),
+        ])
+        let vm = QuickViewModel(service: service)
+        vm.settings.autoCopy = false
+        vm.input = "what is 6 times 7"   // natural language → AI
+        await vm.submit()
+        #expect(vm.output == "42")
+    }
+
     // MARK: - Legacy: original test kept for compatibility
 
     @Test func testUpdateAvailableDetected() async throws {

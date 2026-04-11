@@ -38,6 +38,22 @@ import Observation
 
     func submit() async {
         guard !input.isEmpty else { return }
+
+        // Math shortcut — evaluate locally without the AI
+        if MathExpressionDetector.isMathExpression(input) {
+            errorMessage = nil
+            do {
+                let result = try MathCalculator.evaluate(input)
+                output = MathCalculator.format(result)
+                if settings.autoCopy {
+                    copyOutput()
+                }
+            } catch {
+                errorMessage = "Math error: \(error)"
+            }
+            return
+        }
+
         guard let service else {
             errorMessage = "Not connected to any service."
             return
