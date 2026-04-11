@@ -6,7 +6,7 @@
 
   <!-- Primary SEO -->
   <title>apfel-quick: Instant AI overlay for macOS</title>
-  <meta name="description" content="Press a key. Ask anything. Done. A Spotlight-style AI overlay for macOS. Streaming answers, auto-copied to your clipboard. Local math calculator. Runs entirely on your Mac. No API keys, no cloud, nothing leaves your machine.">
+  <meta name="description" content="Press a key. Ask anything. Done. A Spotlight-style AI overlay for macOS. Streaming answers, auto-copied to your clipboard. Runs entirely on your Mac. No API keys, no cloud.">
   <link rel="canonical" href="https://apfel-quick.franzai.com/">
 
   <!-- Open Graph -->
@@ -14,21 +14,21 @@
   <meta property="og:site_name" content="apfel-quick">
   <meta property="og:url" content="https://apfel-quick.franzai.com/">
   <meta property="og:title" content="apfel-quick: Press a key. Ask anything. Done.">
-  <meta property="og:description" content="A Spotlight-style AI overlay for macOS. Streaming answers auto-copied to your clipboard. Local math calculator. 100% on-device, no cloud, no API keys.">
+  <meta property="og:description" content="A Spotlight-style AI overlay for macOS. Streaming answers auto-copied to your clipboard. 100% on-device.">
   <meta property="og:image" content="https://apfel-quick.franzai.com/img/social.png">
   <meta property="og:image:secure_url" content="https://apfel-quick.franzai.com/img/social.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="apfel-quick: instant AI overlay for macOS with streaming answers and auto-copy to clipboard">
+  <meta property="og:image:alt" content="apfel-quick: instant AI overlay for macOS with streaming answers auto-copied to clipboard">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter / X card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="apfel-quick: Press a key. Ask anything. Done.">
-  <meta name="twitter:description" content="A Spotlight-style AI overlay for macOS. Streaming answers auto-copied to your clipboard. 100% on-device, no cloud, no API keys.">
+  <meta name="twitter:description" content="A Spotlight-style AI overlay for macOS. 100% on-device, no cloud, no API keys.">
   <meta name="twitter:image" content="https://apfel-quick.franzai.com/img/social.png">
-  <meta name="twitter:image:alt" content="apfel-quick: instant AI overlay for macOS with streaming answers">
+  <meta name="twitter:image:alt" content="apfel-quick instant AI overlay for macOS">
 
   <!-- App hints -->
   <meta name="application-name" content="apfel-quick">
@@ -43,20 +43,12 @@
     "name": "apfel-quick",
     "operatingSystem": "macOS 26+",
     "applicationCategory": "ProductivityApplication",
-    "description": "Instant AI overlay for macOS. Press a hotkey, type a prompt, get a streaming answer auto-copied to your clipboard. Local math calculator. Powered by Apple Intelligence on-device.",
+    "description": "Instant AI overlay for macOS. Press a hotkey, type a prompt, get a streaming answer auto-copied to your clipboard. Powered by Apple Intelligence on-device.",
     "url": "https://apfel-quick.franzai.com/",
     "downloadUrl": "https://github.com/Arthur-Ficial/apfel-quick/releases/download/v1.0.0/apfel-quick-v1.0.0-macos-arm64.zip",
     "softwareVersion": "1.0.0",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Franz Enzenhofer",
-      "url": "https://fullstackoptimization.com"
-    }
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Franz Enzenhofer", "url": "https://fullstackoptimization.com" }
   }
   </script>
 
@@ -69,649 +61,487 @@
       --brand: #8b5cf6;
       --brand-dark: #6d28d9;
       --brand-light: #ede9fe;
+      --brand-tint: #f7f4ff;
       --dark:  #0d1117;
       --dark2: #161b22;
-      --light: #f5f3ff;
-      --text-dark: #e6edf3;
-      --muted: #8b949e;
       --text:  #1a1a1a;
-      --text2: #4a4a4a;
-      --bd:    #30363d;
-      --bdl:   #dcd4f0;
+      --text2: #555;
+      --muted: #888;
+      --bd:    #2a3038;
+      --bdl:   #e5dff5;
       --r:     12px;
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
-
+    html, body { max-width: 100%; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #fff;
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
+    img, svg { max-width: 100%; height: auto; display: block; }
+    a { color: var(--brand); text-decoration: none; }
+
     /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      background: #fff;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: saturate(1.4) blur(12px);
+      -webkit-backdrop-filter: saturate(1.4) blur(12px);
       border-bottom: 1px solid var(--bdl);
     }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .nav-brand img { width: 24px; height: 24px; border-radius: 5px; }
-    .nav-brand span { font-weight: 700; font-size: 16px; color: var(--brand); letter-spacing: -.2px; }
-    .nav-right { display: flex; align-items: center; gap: 8px; }
-    .nav-gh { display: none !important; }
+    .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-brand img { width: 24px; height: 24px; border-radius: 6px; }
+    .nav-brand span { font-weight: 700; font-size: 15px; color: var(--brand); letter-spacing: -.2px; }
+    .nav-right { display: flex; align-items: center; gap: 6px; }
 
-    .btn-dark {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--dark);
-      color: #fff;
-      padding: 7px 14px;
+    .btn-brand, .btn-dark, .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
       font-size: 13px;
       white-space: nowrap;
+      border: 1px solid transparent;
+      transition: background .15s, border-color .15s;
     }
-    .btn-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--brand);
-      color: #fff;
-      padding: 7px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      white-space: nowrap;
-    }
+    .btn-brand { background: var(--brand); color: #fff; }
     .btn-brand:hover { background: var(--brand-dark); }
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: transparent;
-      color: var(--text-dark);
-      padding: 9px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      border: 1px solid var(--bd);
+    .btn-dark  { background: var(--dark); color: #fff; }
+    .btn-dark:hover { background: #1a222e; }
+    .btn-outline { background: transparent; color: #fff; border-color: #333; }
+    .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+    .btn-big {
+      padding: 14px 22px;
+      font-size: 15px;
+      border-radius: 10px;
     }
 
     /* ── LAYOUT ── */
-    .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding: 0 20px; }
-
-    .hero-text { text-align: center; }
-    .hero-meta { justify-content: center; }
+    .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding: 0 16px; }
 
     /* ── HERO ── */
-    .hero { padding: 56px 0 48px; background: #fff; }
+    .hero {
+      padding: 40px 0 24px;
+      background:
+        radial-gradient(900px 500px at 50% -100px, var(--brand-light), transparent 70%),
+        #fff;
+      text-align: center;
+    }
     .hero-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--brand);
-      margin-bottom: 14px;
+      display: inline-block;
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--brand-dark);
+      background: var(--brand-light);
+      padding: 5px 12px; border-radius: 999px;
+      margin-bottom: 16px;
     }
     .hero h1 {
-      font-size: clamp(26px, 7vw, 52px);
+      font-size: clamp(32px, 9vw, 56px);
       font-weight: 800;
       letter-spacing: -1.5px;
-      line-height: 1.05;
+      line-height: 1.02;
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .hero h1 em { font-style: normal; color: var(--brand); }
     .hero-sub {
       font-size: 16px;
       color: var(--text2);
-      line-height: 1.6;
+      line-height: 1.55;
+      max-width: 540px;
+      margin: 0 auto 22px;
+    }
+    .hero-sub kbd { font-size: 13px; }
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 10px; margin-bottom: 18px;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 6px 14px;
+      font-size: 11px; color: var(--muted);
       margin-bottom: 28px;
     }
-    .hero-ctas { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .hero-meta {
-      display: flex;
-      gap: 0;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .hero-meta span { padding: 3px 10px 3px 0; }
     .hero-meta span::before {
       content: "";
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      background: var(--brand);
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
+      display: inline-block; width: 5px; height: 5px;
+      background: var(--brand); border-radius: 50%;
+      margin-right: 5px; vertical-align: middle;
     }
-    .hero-img {
-      display: flex;
-      justify-content: center;
-      margin-top: 40px;
-    }
-    .hero-img img {
-      width: 100%;
-      max-width: 520px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.08);
+    .hero-shot {
+      margin: 0 auto;
+      max-width: 620px;
       background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(109, 40, 217, .18),
+                  0 8px 24px rgba(0,0,0,.08);
+      overflow: hidden;
     }
+    .hero-shot img { width: 100%; display: block; }
 
     /* ── BANNER ── */
-    .banner { background: var(--brand); padding: 18px 20px; text-align: center; }
+    .banner {
+      background: var(--brand);
+      padding: 14px 16px;
+      text-align: center;
+    }
     .banner p {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
       color: #fff;
-      line-height: 1.5;
     }
 
-    /* ── DARK SECTION ── */
-    .sec-dark { background: var(--dark); padding: 64px 0; }
-    .sec-dark .lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
+    /* ── SECTION BASICS ── */
+    .sec { padding: 56px 0; }
+    .sec-dark { background: var(--dark); color: #e6edf3; }
+    .sec-light { background: var(--brand-tint); }
+    .sec-head { text-align: center; margin-bottom: 40px; }
+    .sec-head .lbl {
+      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
       color: var(--brand);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    .sec-dark h2 {
-      font-size: clamp(22px, 5vw, 36px);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -.5px;
-      line-height: 1.15;
-      margin-bottom: 12px;
-    }
-    .sec-dark .sub {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 36px;
-    }
-
-    /* ── LIGHT / WHITE SECTION ── */
-    .sec-light { background: var(--light); padding: 64px 0; }
-    .sec-white { background: #fff; padding: 64px 0; }
-    .lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--brand);
-      margin-bottom: 12px;
-    }
-    h2.sh {
-      font-size: clamp(22px, 5vw, 34px);
-      font-weight: 800;
-      letter-spacing: -.5px;
-      line-height: 1.15;
+    .sec-head h2 {
+      font-size: clamp(26px, 7vw, 38px);
+      font-weight: 800; letter-spacing: -.8px;
+      line-height: 1.1;
       color: var(--text);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    p.sub {
+    .sec-dark .sec-head h2 { color: #fff; }
+    .sec-head p {
       font-size: 15px;
       color: var(--text2);
-      line-height: 1.6;
-      margin-bottom: 36px;
+      line-height: 1.55;
+      max-width: 520px;
+      margin: 0 auto;
     }
+    .sec-dark .sec-head p { color: #9aa4b2; }
 
-    /* ── HOW IT WORKS ── */
-    .steps {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1px;
-      background: var(--bd);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-    .step { background: var(--dark2); padding: 24px; display: flex; gap: 16px; align-items: flex-start; }
-    .step-n {
-      flex-shrink: 0;
-      width: 28px; height: 28px;
-      border: 1.5px solid var(--brand);
-      border-radius: 50%;
-      color: var(--brand);
-      font-size: 13px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 2px;
-    }
-    .step h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .step p  { font-size: 13px; color: var(--muted); line-height: 1.5; }
     kbd {
       display: inline-block;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 4px;
-      padding: 1px 6px;
+      background: #fff;
+      border: 1px solid var(--bdl);
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      padding: 1px 7px;
       font-family: ui-monospace, "SF Mono", monospace;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .sec-dark kbd, .hero-sub kbd {
+      background: #1f2530;
+      border-color: #3a4250;
       color: #fff;
     }
-    .step kbd { vertical-align: 1px; }
+    code {
+      background: var(--brand-light);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: .9em;
+      color: var(--brand-dark);
+    }
 
-    /* ── REQUIREMENTS ── */
-    .req-list {
+    /* ── SHOWCASE GALLERY ── */
+    .showcase {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1px;
-      background: var(--bdl);
-      border-radius: var(--r);
-      overflow: hidden;
+      gap: 18px;
     }
-    .req-item { background: #fff; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; }
-    .req-dot {
-      width: 8px; height: 8px;
-      background: var(--brand);
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 7px;
+    .shot {
+      background: linear-gradient(180deg, var(--brand-tint), #fff);
+      border: 1px solid var(--bdl);
+      border-radius: 14px;
+      padding: 16px 16px 12px;
+      box-shadow: 0 2px 12px rgba(109, 40, 217, .06);
     }
-    .req-item h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-    .req-item p  { font-size: 12px; color: var(--text2); line-height: 1.5; }
-    .req-note {
+    .shot img {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(0,0,0,.10);
+    }
+    .shot-cap {
+      margin-top: 12px;
+      display: flex; align-items: baseline; gap: 8px;
+      flex-wrap: wrap;
+    }
+    .shot-cap .tag {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--brand);
       background: var(--brand-light);
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .shot-cap h3 {
+      font-size: 14px; font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Shot that should appear wider (bar overlays) */
+    .shot-wide img { max-height: 200px; object-fit: contain; object-position: top; }
+    /* Shot that is a portrait dialog (welcome, launch, settings) */
+    .shot-tall { text-align: center; }
+    .shot-tall img { max-width: 300px; margin: 0 auto; }
+
+    /* ── MATH BOX ── */
+    .math-box {
+      background: linear-gradient(180deg, var(--brand-light), #fff);
       border: 1px solid #c4b5fd;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(109, 40, 217, .08);
+    }
+    .math-box h3 {
+      color: var(--brand-dark);
+      font-size: 13px; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .math-row {
+      background: #fff;
+      border: 1px solid #ddd3f3;
       border-radius: 8px;
       padding: 12px 14px;
-      font-size: 12px;
-      color: #4c1d95;
-      line-height: 1.6;
-      margin-top: 14px;
+      margin-bottom: 8px;
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: 13px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
     }
-    .req-note a { color: var(--brand-dark); font-weight: 600; }
+    .math-row .expr { color: var(--text); word-break: break-all; }
+    .math-row .val {
+      color: #15803d; font-weight: 700; text-align: right;
+      white-space: nowrap;
+    }
+    .math-note {
+      font-size: 12px; color: var(--brand-dark);
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    /* ── COMPARISON ── */
+    .cmp-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--r);
+      border: 1px solid var(--bdl);
+      background: #fff;
+    }
+    .cmp {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 520px;
+    }
+    .cmp thead tr { border-bottom: 1px solid var(--bdl); }
+    .cmp th {
+      padding: 12px 14px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted);
+      text-align: center;
+      background: #faf8ff;
+    }
+    .cmp th.cmp-feat { text-align: left; width: 44%; }
+    .cmp th.cmp-us {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+    }
+    .cmp td {
+      padding: 12px 14px;
+      border-top: 1px solid #f0ecf8;
+      color: var(--text2);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .cmp td:first-child {
+      text-align: left;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .cmp td.cmp-us { background: #faf8ff; }
+    .ck, .cx {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      font-size: 13px; font-weight: 700;
+    }
+    .ck { background: #16a34a; color: #fff; }
+    .cx { background: #eaeaea; color: #aaa; }
 
     /* ── INSTALL ── */
-    .i-primary {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .install-card {
       background: #fff;
       border: 2px solid var(--brand);
-      border-radius: var(--r);
-      padding: 24px;
-      margin-bottom: 12px;
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(109, 40, 217, .10);
     }
-    .i-primary h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .i-primary p { font-size: 14px; color: var(--text2); margin-bottom: 12px; }
-    .i-more {
-      border: 1px solid var(--bdl);
-      border-radius: var(--r);
+    .install-card h3 {
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .install-card p {
+      font-size: 13px; color: var(--text2);
+      margin-bottom: 16px;
+    }
+    .install-alt {
+      margin-top: 16px;
       background: #fff;
-      overflow: hidden;
+      border: 1px solid var(--bdl);
+      border-radius: 10px;
+      padding: 14px 16px;
     }
-    .i-more summary {
-      padding: 12px 16px;
-      font-size: 13px;
-      font-weight: 600;
+    .install-alt .lbl2 {
+      display: block;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
       color: var(--muted);
-      cursor: pointer;
-      list-style: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .i-more summary::-webkit-details-marker { display: none; }
-    .i-more summary::before { content: "+"; font-size: 16px; color: var(--brand); }
-    .i-more[open] summary::before { content: "-"; }
-    .i-more-inner { display: flex; flex-direction: column; gap: 12px; padding: 0 16px 16px; }
-    .i-card { background: #f8f8f8; border: 1px solid var(--bdl); border-radius: var(--r); padding: 16px; }
-    .i-card h3 {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
     pre {
       background: var(--dark);
       color: #c4b5fd;
       border-radius: 8px;
       padding: 12px 14px;
+      padding-right: 58px;
       font-family: ui-monospace, "SF Mono", monospace;
-      font-size: 12px;
-      line-height: 1.7;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    pre .c { color: #6a6a8a; }
-    .i-note { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
-    code {
-      background: #f0eafc;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-family: ui-monospace, monospace;
-      font-size: .88em;
-      color: var(--text);
-    }
-    .after { background: #fff; border: 1px solid var(--bdl); border-radius: var(--r); padding: 16px; }
-    .after h3 {
       font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: var(--muted);
-      margin-bottom: 10px;
+      line-height: 1.55;
+      text-align: left;
+      word-break: break-all;
+      white-space: pre-wrap;
     }
-    .after ol { padding-left: 18px; }
-    .after li { font-size: 13px; color: var(--text2); line-height: 2.1; }
+    @media (min-width: 600px) {
+      pre { font-size: 12px; word-break: normal; white-space: pre; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    }
 
-    /* ── FEATURES ── */
-    .feat-grid {
+    /* ── REQUIREMENTS (compact) ── */
+    .req-row {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1px;
-      background: var(--bd);
-      border-radius: var(--r);
-      overflow: hidden;
+      gap: 10px;
     }
-    .feat { background: var(--dark2); padding: 22px 24px; }
-    .feat .ftag {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--brand);
-      margin-bottom: 6px;
-    }
-    .feat h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .feat p  { font-size: 13px; color: var(--muted); line-height: 1.5; }
-    .feat a { color: var(--brand); text-decoration: none; }
-
-    /* ── SCREENSHOTS ── */
-    .screens { display: grid; grid-template-columns: 1fr; gap: 32px; }
-    .sc .sc-tag {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .sc h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .sc p  { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 16px; }
-    .sc-img-wrap {
-      background: #faf8ff;
+    .req-pill {
+      background: #fff;
       border: 1px solid var(--bdl);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 24px rgba(139, 92, 246, 0.08);
+      gap: 12px;
     }
-    .sc img {
+    .req-pill .dot {
+      width: 8px; height: 8px;
+      background: var(--brand);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .req-pill strong {
+      font-size: 13px; font-weight: 700;
+      color: var(--text);
+    }
+    .req-pill span {
       display: block;
-      width: 100%;
-      max-width: 560px;
-      height: auto;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      font-size: 11px; color: var(--muted);
+      margin-top: 1px;
     }
-    .sc-tall img { max-width: 340px; }
 
-    /* ── COPY BUTTON ── */
-    .pre-wrap { position: relative; }
-    .copy-btn {
-      position: absolute;
-      top: 8px; right: 8px;
-      background: rgba(255,255,255,.08);
-      color: var(--muted);
-      border: 1px solid var(--bd);
-      border-radius: 5px;
-      padding: 3px 9px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      line-height: 1.6;
-    }
-    .copy-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
-    .copy-btn.copied { color: var(--brand); border-color: var(--brand); }
-
-    /* ── OPEN SOURCE ── */
-    .sec-os { background: var(--dark); padding: 64px 20px; text-align: center; }
-    .sec-os h2 {
-      font-size: clamp(22px, 5vw, 32px);
-      font-weight: 800;
+    /* ── OPEN SOURCE CTA ── */
+    .os-card {
+      background: var(--dark);
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
       color: #fff;
-      letter-spacing: -.5px;
-      margin-bottom: 12px;
     }
-    .sec-os p {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 28px;
-      line-height: 1.6;
-      max-width: 440px;
-      margin-left: auto;
-      margin-right: auto;
+    .os-card h2 {
+      font-size: clamp(22px, 6vw, 30px);
+      font-weight: 800; letter-spacing: -.5px;
+      margin-bottom: 8px;
     }
-    .os-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .os-card p {
+      font-size: 14px;
+      color: #9aa4b2;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .os-links {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
 
     /* ── FOOTER ── */
     footer {
       background: var(--dark2);
-      border-top: 1px solid var(--bd);
-      padding: 24px 20px;
+      border-top: 1px solid #1f262f;
+      padding: 22px 16px;
       text-align: center;
     }
     .foot-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      display: flex; justify-content: center;
+      gap: 12px; flex-wrap: wrap;
       margin-bottom: 10px;
     }
-    .foot-links a { font-size: 12px; font-weight: 500; color: var(--muted); text-decoration: none; }
+    .foot-links a {
+      font-size: 11px; font-weight: 500;
+      color: #9aa4b2;
+    }
     .foot-links a:hover { color: var(--brand); }
-    footer p { font-size: 11px; color: var(--muted); }
-    footer a { color: var(--brand); text-decoration: none; }
+    footer p { font-size: 10px; color: #6a7280; }
+    footer a { color: var(--brand); }
 
-    /* ── OFFLINE PILL ── */
-    .offline-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: var(--brand-light);
-      border: 1.5px solid #c4b5fd;
-      color: var(--brand-dark);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 999px;
-      margin-bottom: 22px;
-      letter-spacing: 0;
+    /* ── COPY BUTTON ── */
+    .pre-wrap { position: relative; }
+    .copy-btn {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(255,255,255,.08);
+      color: #9aa4b2;
+      border: 1px solid #2a3038;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 10px; font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
     }
+    .copy-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .copy-btn.copied { color: var(--brand); border-color: var(--brand); }
 
-    /* ── COMPARISON ── */
-    .cmp-section { background: #faf8ff; padding: 64px 0; }
-    .cmp-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 20px;
-      border-radius: var(--r);
-      border: 1px solid var(--bdl);
+    /* ── MOBILE-FIRST DEFAULTS, THEN ENHANCE ── */
+    @media (min-width: 600px) {
+      .wrap { padding: 0 24px; }
+      .sec { padding: 72px 0; }
+      .hero { padding: 64px 0 32px; }
+      .showcase { grid-template-columns: 1fr 1fr; gap: 22px; }
+      .req-row { grid-template-columns: repeat(3, 1fr); }
+      .shot-tall img { max-width: 260px; }
     }
-    .cmp {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      min-width: 620px;
-    }
-    .cmp thead tr { border-bottom: 2px solid var(--bdl); }
-    .cmp th {
-      padding: 14px 18px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--muted);
-      text-align: center;
-      background: #f4f0fd;
-    }
-    .cmp th.cmp-feat { text-align: left; width: 45%; }
-    .cmp th.cmp-us {
-      background: #e9e2fb;
-      color: var(--brand);
-      border-left: 2px solid var(--brand);
-      border-right: 2px solid var(--brand);
-      border-top: 2px solid var(--brand);
-    }
-    .cmp td {
-      padding: 13px 18px;
-      border-bottom: 1px solid #f0eafc;
-      color: var(--text2);
-      text-align: center;
-      vertical-align: middle;
-      background: #fff;
-    }
-    .cmp td:first-child { text-align: left; color: var(--text); font-size: 13px; background: #fff; }
-    .cmp tr.cmp-hero td { background: #fcfaff; }
-    .cmp tr.cmp-hero td:first-child { font-weight: 700; }
-    .cmp td.cmp-us { background: var(--brand-light); border-left: 2px solid var(--brand); border-right: 2px solid var(--brand); }
-    .cmp tbody tr:last-child td.cmp-us { border-bottom: 2px solid var(--brand); }
-    .ck {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px;
-      background: #16a34a; color: #fff;
-      border-radius: 50%; font-size: 15px; font-weight: 700;
-    }
-    .cx {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px;
-      background: #f0f0f0; color: #aaa;
-      border-radius: 50%; font-size: 15px; font-weight: 700;
-    }
-    .cmp-free { font-weight: 700; color: #16a34a; font-size: 15px; }
-    .cmp-cost { font-size: 12px; color: #999; }
-    .cmp-note {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 640px;
-      border-top: 1px solid var(--bdl);
-      padding-top: 16px;
-      margin-top: 4px;
-    }
-
-    /* ── MATH HIGHLIGHT ── */
-    .math-box {
-      background: var(--brand-light);
-      border: 1px solid #c4b5fd;
-      border-radius: var(--r);
-      padding: 22px 24px;
-    }
-    .math-box h3 { color: #4c1d95; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .math-box > p { color: #4c1d95; font-size: 13px; line-height: 1.6; margin-bottom: 14px; }
-    .math-box .math-example {
-      background: #fff;
-      border: 1px solid #c4b5fd;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-family: ui-monospace, "SF Mono", monospace;
-      font-size: 13px;
-      color: var(--text);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .math-box .math-example .arrow { color: var(--brand); font-weight: 700; }
-    .math-box .math-example .result { color: #16a34a; font-weight: 700; margin-left: auto; }
-    .math-box .math-ops {
-      font-size: 11px;
-      color: #6d28d9;
-      line-height: 1.7;
-      margin-top: 10px;
-    }
-
-    /* ── APFEL ENGINE ── */
-    .engine-cols { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
-    .engine-col { border-radius: var(--r); padding: 22px 24px; }
-    .engine-good { background: #f0fdf4; border: 1px solid #bbf7d0; }
-    .engine-limits { background: #fafafa; border: 1px solid var(--bdl); }
-    .engine-col h3 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-    .engine-good h3 { color: #15803d; }
-    .engine-limits h3 { color: var(--text2); }
-    .engine-col ul { padding-left: 18px; }
-    .engine-col li { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 6px; }
-    .engine-col li strong { color: var(--text); }
-    .engine-link {
-      font-size: 13px; color: var(--muted); border-top: 1px solid var(--bdl);
-      padding-top: 16px; line-height: 1.6;
-    }
-    .engine-link a { color: var(--brand); text-decoration: none; font-weight: 600; }
-
-    /* ── DESKTOP ── */
-    @media (min-width: 760px) {
+    @media (min-width: 900px) {
       nav { padding: 14px 48px; }
-      .nav-gh { display: inline-flex !important; }
-      .hero-ctas { flex-direction: row; }
-
-      .wrap { max-width: 1100px; padding: 0 48px; }
-
-      .hero { padding: 80px 0 72px; }
-      .hero-inner {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 64px;
-        align-items: center;
-      }
-      .hero-text { text-align: left; }
-      .hero-meta { justify-content: flex-start; }
-      .hero-ctas { justify-content: flex-start; }
-      .hero-img { margin-top: 0; justify-content: flex-end; }
-      .hero-img img { max-width: 560px; }
-
-      .sec-dark  { padding: 88px 0; }
-      .sec-light { padding: 88px 0; }
-      .sec-white { padding: 88px 0; }
-
-      .steps { grid-template-columns: repeat(3, 1fr); }
-      .step  { flex-direction: column; }
-
-      .req-list { grid-template-columns: repeat(3, 1fr); }
-
-      .i-primary { flex-direction: row; align-items: flex-start; }
-      .i-primary-text { flex: 1; }
-      .after { flex: 1; }
-      .i-more-inner { display: grid; grid-template-columns: repeat(3, 1fr); }
-
-      .feat-grid { grid-template-columns: repeat(3, 1fr); }
-      .engine-cols { grid-template-columns: 1fr 1fr; }
-
-      .screens { grid-template-columns: repeat(2, 1fr); }
+      .wrap { max-width: 1000px; padding: 0 32px; }
+      .sec { padding: 96px 0; }
+      .hero { padding: 80px 0 48px; }
+      .hero h1 { font-size: clamp(40px, 6vw, 64px); }
+      .hero-sub { font-size: 17px; margin-bottom: 28px; }
+      .hero-shot { max-width: 720px; }
+      .showcase { gap: 28px; }
     }
   </style>
 </head>
@@ -724,50 +554,137 @@
     <span>apfel-quick</span>
   </a>
   <div class="nav-right">
-    <a class="btn-dark nav-gh" href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
-    <a class="btn-brand" href="#install"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg> Download</a>
+    <a class="btn-brand" href="#install">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Download
+    </a>
   </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <div class="hero-eyebrow">macOS AI overlay</div>
-        <h1>Press a key.<br><em>Ask anything. Done.</em></h1>
-        <div class="offline-pill">⚡ Streams in. Auto-copies. No cloud.</div>
-        <p class="hero-sub">A Spotlight-style AI overlay for your Mac. Hit <strong>Ctrl + Space</strong>, type your question, press Enter. The answer streams in and copies to your clipboard automatically. Runs entirely on-device. No API keys. No account. No data ever leaves your machine.</p>
-        <div class="hero-ctas">
-          <a class="btn-brand" href="#install"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg> Download free</a>
-          <a class="btn-dark" href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-        </div>
-        <div class="hero-meta">
-          <span>MIT Open Source</span>
-          <span>macOS 26 Tahoe</span>
-          <span>Apple Silicon</span>
-          <span>100% On-Device</span>
-        </div>
-      </div>
-      <div class="hero-img">
-        <img src="img/screen-math-copied.png" alt="apfel-quick overlay showing 3,14*2 answered as 6.28 with a green Copied to clipboard badge"
-             width="1240" height="244" fetchpriority="high">
-      </div>
+    <div class="hero-eyebrow">macOS AI overlay · v1.0.0</div>
+    <h1>Press a key.<br><em>Ask anything.</em> Done.</h1>
+    <p class="hero-sub">
+      Hit <kbd>Ctrl</kbd>&nbsp;<kbd>Space</kbd>. Type. Press Enter. The answer streams in and auto-copies to your clipboard. 100% on-device.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-brand btn-big" id="download-btn" href="https://github.com/Arthur-Ficial/apfel-quick/releases/latest">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <span id="download-label">Download free</span>
+      </a>
+      <a class="btn-dark btn-big" href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="hero-meta">
+      <span>MIT Open Source</span>
+      <span>macOS 26 Tahoe</span>
+      <span>Apple Silicon</span>
+      <span>100% Local</span>
+    </div>
+    <div class="hero-shot">
+      <img src="img/screen-math-copied.png" alt="apfel-quick computing 3,14*2 as 6.28 with a green Copied badge floating in the top-right" width="1240" height="244" fetchpriority="high">
     </div>
   </div>
 </section>
 
 <!-- Banner -->
 <div class="banner">
-  <p>Everything runs on your device. No network calls. No data leaves your Mac.</p>
+  <p>Everything runs on your device. Nothing leaves your Mac.</p>
 </div>
 
-<!-- Comparison -->
-<section class="cmp-section" id="why">
+<!-- Showcase: show the app before you tell about it -->
+<section class="sec sec-light" id="showcase">
   <div class="wrap">
-    <div class="lbl">vs. cloud AI</div>
-    <h2 class="sh">Works when they don't.</h2>
-    <p class="sub">ChatGPT, Claude, Gemini, and Mistral all need servers, accounts, and an internet connection. apfel-quick runs entirely on your Mac. No Wi-Fi, no sign-up, no monthly bill.</p>
+    <div class="sec-head">
+      <div class="lbl">See it work</div>
+      <h2>Real app. Real answers.</h2>
+      <p>Every screenshot is the actual overlay. Captured with the macOS window API — no desktop, no fake mockups.</p>
+    </div>
+    <div class="showcase">
+
+      <div class="shot">
+        <img src="img/screen-overlay-empty.png" alt="apfel-quick empty 'Ask anything...' input field" width="1240" height="110" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">Empty</span>
+          <h3>Press the hotkey. Start typing.</h3>
+        </div>
+      </div>
+
+      <div class="shot">
+        <img src="img/screen-ai.png" alt="apfel-quick answering 'name three planets' with 'Mercury, Venus, Earth.'" width="1240" height="244" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">Streaming</span>
+          <h3>Direct answer. No preamble.</h3>
+        </div>
+      </div>
+
+      <div class="shot">
+        <img src="img/screen-math-copied.png" alt="apfel-quick computing 3,14*2 as 6.28 with a green Copied badge" width="1240" height="244" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">Auto-copy</span>
+          <h3>Result is on your clipboard.</h3>
+        </div>
+      </div>
+
+      <div class="shot">
+        <img src="img/screen-overlay-math.png" alt="apfel-quick computing 54,34*6-(435353) as -435026.96" width="1240" height="244" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">Local math</span>
+          <h3>Never hits the AI.</h3>
+        </div>
+      </div>
+
+      <div class="shot shot-tall">
+        <img src="img/screen-welcome.png" alt="apfel-quick first-run welcome screen with purple bolt icon, feature bullets, and Get Started button" width="920" height="992" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">First run</span>
+          <h3>One clear welcome screen.</h3>
+        </div>
+      </div>
+
+      <div class="shot shot-tall">
+        <img src="img/screen-settings.png" alt="apfel-quick Settings with five toggles, version display, and Check for Update button" width="960" height="1040" loading="lazy">
+        <div class="shot-cap">
+          <span class="tag">Settings</span>
+          <h3>Five toggles. Nothing more.</h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Math: visual example, almost no copy -->
+<section class="sec" id="math">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">Local math</div>
+      <h2>Math stays off the AI.</h2>
+      <p>Pure expressions are detected and computed by a recursive-descent parser. Microseconds. Always correct.</p>
+    </div>
+    <div class="math-box">
+      <h3>Live examples</h3>
+      <div class="math-row"><span class="expr">54,34*6-(435353)</span><span class="val">−435026.96</span></div>
+      <div class="math-row"><span class="expr">sqrt(2) * pi</span><span class="val">4.442882938</span></div>
+      <div class="math-row"><span class="expr">sin(0) + cos(0)</span><span class="val">1</span></div>
+      <div class="math-row"><span class="expr">2^10</span><span class="val">1024</span></div>
+      <p class="math-note"><strong>Supports:</strong> + − × ÷ ^ %, parentheses, unary minus, European decimal commas (<code>3,14</code>), <code>sqrt</code>, <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>log</code>, <code>ln</code>, <code>abs</code>, <code>floor</code>, <code>ceil</code>, <code>round</code>, and the constants <code>pi</code> and <code>e</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison: compact -->
+<section class="sec sec-light" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">vs. cloud AI</div>
+      <h2>Works when they don't.</h2>
+      <p>No account, no subscription, no internet. Your queries never leave your Mac.</p>
+    </div>
     <div class="cmp-wrap">
       <table class="cmp">
         <thead>
@@ -777,409 +694,111 @@
             <th>ChatGPT</th>
             <th>Claude</th>
             <th>Gemini</th>
-            <th>Mistral</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="cmp-hero">
+          <tr>
             <td>Global hotkey overlay</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
             <td>Works offline</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
-            <td>Auto-copies answer to clipboard</td>
+            <td>Auto-copies answer</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-          </tr>
-          <tr>
-            <td>Cost</td>
-            <td class="cmp-us"><span class="cmp-free">Free</span></td>
-            <td><span class="cmp-cost">Free / $20+/mo</span></td>
-            <td><span class="cmp-cost">Free / $20+/mo</span></td>
-            <td><span class="cmp-cost">Free / $20+/mo</span></td>
-            <td><span class="cmp-cost">Free / $15+/mo</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
             <td>Data stays on your Mac</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
-            <td>No account or sign-up</td>
+            <td>No account, no API key</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
-            <td>No API key needed</td>
+            <td>Free, forever</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
           <tr>
             <td>Local math calculator</td>
             <td class="cmp-us"><span class="ck">✓</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
-            <td><span class="cx">✗</span></td>
+            <td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="cmp-note">ChatGPT, Claude, Gemini, and Mistral are powerful cloud services, but each one needs an internet connection, an account, and your conversations travel to remote servers. apfel-quick is the alternative for when speed, privacy, and offline availability matter.</p>
   </div>
 </section>
 
-<!-- How it works -->
-<section class="sec-dark" id="how-it-works">
+<!-- Install: one card -->
+<section class="sec" id="install">
   <div class="wrap">
-    <div class="lbl" style="color:var(--brand)">How it works</div>
-    <h2>Three steps. Under a second.</h2>
-    <p class="sub">No apps to launch. No windows to find. Just a hotkey and a text field, anywhere on your Mac.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">1</div>
-        <div>
-          <h3>Press <kbd>Ctrl</kbd> + <kbd>Space</kbd></h3>
-          <p>A small input appears centered on your screen. Works over any app, even fullscreen. The hotkey is configurable in Settings.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-n">2</div>
-        <div>
-          <h3>Type your question</h3>
-          <p>Any question. Translations, quick facts, rephrasings, code snippets, math. The input auto-focuses so you can just start typing.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-n">3</div>
-        <div>
-          <h3>Hit Enter, the answer streams in</h3>
-          <p>Tokens arrive below the input. When it's done, the full answer is on your clipboard. A green Copied badge confirms it.</p>
-        </div>
+    <div class="sec-head">
+      <div class="lbl">Install</div>
+      <h2>Get apfel-quick.</h2>
+      <p>Free. Signed and notarised by Apple. Apple Silicon only.</p>
+    </div>
+    <div class="install-card">
+      <h3>Download</h3>
+      <p>Unzip, drag <strong>apfel-quick.app</strong> to Applications, open.</p>
+      <a class="btn-brand btn-big" id="download-btn-2" href="https://github.com/Arthur-Ficial/apfel-quick/releases/latest">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <span id="download-label-2">Download (arm64)</span>
+      </a>
+      <div class="install-alt">
+        <span class="lbl2">Or with Homebrew</span>
+        <pre>brew install Arthur-Ficial/tap/apfel-quick</pre>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Requirements -->
-<section class="sec-white" id="requirements">
+<!-- Requirements: compact pills -->
+<section class="sec sec-light" id="requirements">
   <div class="wrap">
-    <div class="lbl">Before you install</div>
-    <h2 class="sh">Requirements</h2>
-    <p class="sub">apfel-quick uses Apple's on-device language model. You need all three.</p>
-    <div class="req-list">
-      <div class="req-item">
-        <div class="req-dot"></div>
-        <div>
-          <h3>macOS 26 (Tahoe)</h3>
-          <p>Required for Apple Intelligence. Apple menu &gt; System Settings &gt; Software Update.</p>
-        </div>
-      </div>
-      <div class="req-item">
-        <div class="req-dot"></div>
-        <div>
-          <h3>Apple Silicon (M1 or later)</h3>
-          <p>Apple Intelligence runs on-chip only. Apple menu &gt; About This Mac must say M1, M2, M3, or M4.</p>
-        </div>
-      </div>
-      <div class="req-item">
-        <div class="req-dot"></div>
-        <div>
-          <h3>Apple Intelligence enabled</h3>
-          <p>Enable in System Settings &gt; Apple Intelligence &amp; Siri. Works in English, German, French, Spanish, Italian, Japanese, Korean, Chinese, and more.</p>
-        </div>
-      </div>
+    <div class="sec-head">
+      <div class="lbl">Before you install</div>
+      <h2>Three requirements.</h2>
     </div>
-    <div class="req-note">
-      <strong>apfel included:</strong> The ZIP download and Homebrew cask bundle <a href="https://apfel.franzai.com">apfel</a> automatically. No separate install needed.
-      Source builds only: <code>brew install Arthur-Ficial/tap/apfel</code>
+    <div class="req-row">
+      <div class="req-pill">
+        <div class="dot"></div>
+        <div><strong>macOS 26 Tahoe</strong><span>Or later</span></div>
+      </div>
+      <div class="req-pill">
+        <div class="dot"></div>
+        <div><strong>Apple Silicon</strong><span>M1 or later</span></div>
+      </div>
+      <div class="req-pill">
+        <div class="dot"></div>
+        <div><strong>Apple Intelligence</strong><span>Enabled in Settings</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Install -->
-<section class="sec-light" id="install">
+<!-- Open source CTA -->
+<section class="sec">
   <div class="wrap">
-    <div class="lbl">Install</div>
-    <h2 class="sh">Get apfel-quick</h2>
-    <p class="sub">Free. Signed and notarised by Apple. Apple Silicon only.</p>
-
-    <!-- Primary: download -->
-    <div class="i-primary">
-      <div class="i-primary-text">
-        <h3>Download</h3>
-        <p>Download the zip, unzip, drag <strong>apfel-quick.app</strong> to your Applications folder, and open it. On first launch a short welcome screen walks you through the hotkey and settings.</p>
-        <a class="btn-brand" id="download-btn" href="https://github.com/Arthur-Ficial/apfel-quick/releases/download/v1.0.0/apfel-quick-v1.0.0-macos-arm64.zip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg> <span id="download-label">Download free (arm64)</span></a>
-        <p class="i-note" style="margin-top:10px;">Signed and notarised by Apple. SHA-256 checksums in each <a href="https://github.com/Arthur-Ficial/apfel-quick/releases" style="color:var(--brand)">release</a>.</p>
-      </div>
-      <div class="after">
-        <h3>After installing</h3>
-        <ol>
-          <li>Open <strong>apfel-quick</strong> from Applications</li>
-          <li>A welcome screen shows you the hotkey and auto-copy settings</li>
-          <li>Click <strong>Get Started</strong>, then confirm "Start at login"</li>
-          <li>Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> anywhere on your Mac</li>
-          <li>Type your question and press <strong>Enter</strong></li>
-          <li>The answer streams in and auto-copies to your clipboard</li>
-          <li>Paste it wherever you were typing — done</li>
-        </ol>
-        <p class="i-note" style="margin-top:10px;">You can reopen the welcome screen anytime from <strong>Settings → Show welcome screen on next launch</strong>, or right-click the menu-bar bolt → Show Welcome Again.</p>
+    <div class="os-card">
+      <h2>Free and open source.</h2>
+      <p>MIT-licensed. 176 tests. Swift 6.3, SwiftUI, zero external dependencies. Built TDD-first.</p>
+      <div class="os-links">
+        <a class="btn-brand" href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          Star on GitHub
+        </a>
+        <a class="btn-outline" href="https://github.com/Arthur-Ficial/apfel-quick/issues" target="_blank" rel="noopener">Report an issue</a>
       </div>
     </div>
-
-    <!-- Secondary: other options -->
-    <details class="i-more">
-      <summary>Other install options</summary>
-      <div class="i-more-inner">
-        <div class="i-card">
-          <h3>Homebrew</h3>
-          <pre>brew install Arthur-Ficial/tap/apfel-quick</pre>
-          <p class="i-note">Best for developers. Updates with <code>brew upgrade apfel-quick</code>.</p>
-        </div>
-        <div class="i-card">
-          <h3>Build from source</h3>
-          <pre>git clone https://github.com/Arthur-Ficial/apfel-quick.git
-cd apfel-quick
-swift build -c release
-make install</pre>
-          <p class="i-note">Requires Xcode command-line tools and <code>apfel</code> on PATH.</p>
-        </div>
-        <div class="i-card">
-          <h3>Releases feed</h3>
-          <pre>github.com/Arthur-Ficial/
-apfel-quick/releases</pre>
-          <p class="i-note">Every release has SHA-256 checksums and release notes. Subscribe via GitHub.</p>
-        </div>
-      </div>
-    </details>
-
-  </div>
-</section>
-
-<!-- Features -->
-<section class="sec-dark" id="features">
-  <div class="wrap">
-    <div class="lbl" style="color:var(--brand)">Features</div>
-    <h2>Small overlay. Serious depth.</h2>
-    <p class="sub">Built for people who want an answer right now without opening a browser, logging in, or thinking about tokens.</p>
-    <div class="feat-grid">
-      <div class="feat">
-        <div class="ftag">Instant</div>
-        <h3>Global hotkey</h3>
-        <p>Default <kbd>Ctrl+Space</kbd>, configurable. Works over any app, any space, even fullscreen.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Streaming</div>
-        <h3>Token-by-token</h3>
-        <p>Responses stream in as the model generates them. No waiting for a complete response to appear.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Clipboard</div>
-        <h3>Auto-copy with flash</h3>
-        <p>When the stream completes, the full answer is on your clipboard. A green <strong>Copied</strong> badge flashes in the corner so you know.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Local math</div>
-        <h3>Math shortcut</h3>
-        <p>Expressions like <code>54,34*6-(435353)</code> are detected and computed locally by a recursive-descent parser. Never touches the AI. Scientifically correct.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Concise</div>
-        <h3>Direct answers</h3>
-        <p>Tight system prompt. No preamble, no postamble, no "as an AI" disclaimers. Just the answer you asked for.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Background</div>
-        <h3>Lives in the menu bar</h3>
-        <p>Starts with your Mac if you let it. Click the bolt icon to open, right-click for Settings, Show Welcome Again, and Quit.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Privacy</div>
-        <h3>Fully on-device</h3>
-        <p>No API keys, no network calls, no telemetry. Powered by <a href="https://apfel.franzai.com">apfel</a> and Apple Intelligence.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Open</div>
-        <h3>Open source, MIT</h3>
-        <p>176 tests, TDD-first. Built in Swift 6.3, SwiftUI, zero external dependencies. Read the code, fork it, ship it.</p>
-      </div>
-      <div class="feat">
-        <div class="ftag">Updates</div>
-        <h3>Verified updates</h3>
-        <p>Silent update check on launch. Every release is signed, notarised, and SHA-256 verified. Homebrew upgrades in one command.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Math highlight -->
-<section class="sec-white" id="math">
-  <div class="wrap">
-    <div class="lbl">Unique feature</div>
-    <h2 class="sh">Math goes local. Instantly.</h2>
-    <p class="sub">Most AI overlays send every query — including <code>1+1</code> — to the model. apfel-quick detects pure math expressions and computes them locally with a recursive-descent parser. Microseconds. Scientifically correct. Supports European decimal commas.</p>
-    <div class="math-box">
-      <h3>Examples</h3>
-      <p>All of these are computed locally without ever touching the AI:</p>
-      <div class="math-example">
-        <span><code>54,34*6-(435353)</code></span>
-        <span class="arrow">→</span>
-        <span class="result">-435026.96</span>
-      </div>
-      <div class="math-example">
-        <span><code>sqrt(2) * pi</code></span>
-        <span class="arrow">→</span>
-        <span class="result">4.442882938</span>
-      </div>
-      <div class="math-example">
-        <span><code>sin(0) + cos(0)</code></span>
-        <span class="arrow">→</span>
-        <span class="result">1</span>
-      </div>
-      <div class="math-example">
-        <span><code>2^10</code></span>
-        <span class="arrow">→</span>
-        <span class="result">1024</span>
-      </div>
-      <p class="math-ops">Supports: + − × ÷ ^ %, parentheses, unary minus, European decimal commas (3,14), and functions: sqrt, sin, cos, tan, log, ln, abs, floor, ceil, round, plus constants pi and e.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Powered by apfel -->
-<section class="sec-white" id="engine">
-  <div class="wrap">
-    <div class="lbl">Under the hood</div>
-    <h2 class="sh">Powered by <a href="https://apfel.franzai.com" style="color:var(--brand);text-decoration:none">apfel</a>.</h2>
-    <p class="sub">apfel-quick is a native macOS overlay built on top of <a href="https://apfel.franzai.com" style="color:var(--brand);font-weight:600">apfel</a>, an open-source CLI and OpenAI-compatible server that wraps Apple's on-device foundation model. apfel does the AI inference. apfel-quick handles the hotkey, overlay UI, streaming, auto-copy, and math shortcut on top of it.</p>
-    <div class="engine-cols">
-      <div class="engine-col engine-good">
-        <h3>Where apfel-quick shines</h3>
-        <ul>
-          <li>Quick translations and rephrases while writing</li>
-          <li>Short factual questions — capitals, formulas, syntax</li>
-          <li>Drafting a single sentence or line of code</li>
-          <li>One-shot math that your calculator app is slow for</li>
-          <li>Privacy-sensitive lookups: medical, legal, personal</li>
-          <li>Working offline: planes, travel, no Wi-Fi</li>
-          <li>Daily use with zero friction, zero subscription</li>
-        </ul>
-      </div>
-      <div class="engine-col engine-limits">
-        <h3>Honest limitations</h3>
-        <ul>
-          <li><strong>No conversation history.</strong> Each query is a one-shot. For multi-turn dialogue, use <a href="https://apfel-chat.franzai.com" style="color:var(--brand)">apfel-chat</a>.</li>
-          <li><strong>4,096-token context.</strong> Short prompts work perfectly. Long documents won't fit in a single shot.</li>
-          <li><strong>One fixed model.</strong> Apple's on-device foundation model. Capable for daily use, less powerful than frontier cloud models for complex multi-step reasoning.</li>
-          <li><strong>Language requirements.</strong> Your device and Siri language must match and be one of the supported languages.</li>
-          <li><strong>macOS 26 Tahoe + Apple Silicon</strong> required. Apple Intelligence must be on.</li>
-        </ul>
-      </div>
-    </div>
-    <p class="engine-link">
-      <a href="https://apfel.franzai.com">apfel.franzai.com</a>. The AI engine behind apfel-quick. Also available standalone as a UNIX CLI and OpenAI-compatible API server. If you want a full chat UI instead of a one-shot overlay, try <a href="https://apfel-chat.franzai.com">apfel-chat</a>.
-    </p>
-  </div>
-</section>
-
-<!-- Screenshots -->
-<section class="sec-white" id="screenshots">
-  <div class="wrap">
-    <div class="lbl">In action</div>
-    <h2 class="sh">Real answers. On your Mac.</h2>
-    <p class="sub">Every screenshot below is the actual app. Captured with the macOS window API so the window is the only thing you see — no desktop, no other apps.</p>
-    <div class="screens">
-      <div class="sc">
-        <div class="sc-tag">Ask anything</div>
-        <h3>Plain input, auto-focus</h3>
-        <p>Press the hotkey, the text field auto-focuses. Type your question. A purple send button and a gear icon sit on the right.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-overlay-empty.png" alt="apfel-quick overlay showing an empty Ask anything input field with a purple send button and gear icon" width="1240" height="110" loading="lazy">
-        </div>
-      </div>
-      <div class="sc">
-        <div class="sc-tag">Streaming</div>
-        <h3>Direct answers, no padding</h3>
-        <p>A tight system prompt keeps answers short and on-topic. No "As an AI language model" — just the result you asked for.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-ai.png" alt="apfel-quick answering 'name three planets' with 'Mercury, Venus, Earth.'" width="1240" height="244" loading="lazy">
-        </div>
-      </div>
-      <div class="sc">
-        <div class="sc-tag">Local math</div>
-        <h3>Math never hits the AI</h3>
-        <p>European decimal commas, operator precedence, parentheses — all parsed and computed locally. The green Copied badge floats in the corner and fades out on its own.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-math-copied.png" alt="apfel-quick computing 3,14*2 as 6.28 with a green Copied badge in the top-right" width="1240" height="244" loading="lazy">
-        </div>
-      </div>
-      <div class="sc">
-        <div class="sc-tag">Math, longer</div>
-        <h3>Parser handles the tough ones</h3>
-        <p>Recursive-descent parser with proper precedence. The earlier math example <code>54,34*6-(435353)</code> resolves to -435026.96 in under a millisecond.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-overlay-math.png" alt="apfel-quick computing 54,34*6-(435353) as -435026.96" width="1240" height="244" loading="lazy">
-        </div>
-      </div>
-      <div class="sc sc-tall">
-        <div class="sc-tag">First run</div>
-        <h3>Welcome screen</h3>
-        <p>One dialog on first launch. Explains the hotkey, shows the feature bullets, and lets you toggle update checks before you see the overlay.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-welcome.png" alt="apfel-quick welcome screen with purple bolt icon, feature bullets, update toggle, and Get Started button" width="920" height="992" loading="lazy">
-        </div>
-      </div>
-      <div class="sc sc-tall">
-        <div class="sc-tag">Launch at login</div>
-        <h3>One tap to enable</h3>
-        <p>Right after the welcome, a small confirmation asks whether to start apfel-quick at login. Change it anytime in Settings.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-launchlogin.png" alt="apfel-quick launch at login confirmation alert with Enable at Login and Not Now buttons" width="520" height="568" loading="lazy">
-        </div>
-      </div>
-      <div class="sc sc-tall">
-        <div class="sc-tag">Settings</div>
-        <h3>Five toggles, nothing more</h3>
-        <p>Auto-copy, launch at login, menu bar icon, update checks, show welcome on next launch. Plus the current version and a Check for Update button.</p>
-        <div class="sc-img-wrap">
-          <img src="img/screen-settings.png" alt="apfel-quick Settings with five toggles, version display showing 1.0.0 Up to date, and Check for Update button" width="960" height="1040" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Open Source -->
-<section class="sec-os">
-  <h2>Free and open source.</h2>
-  <p>MIT-licensed. 176 tests, TDD-first. Swift 6.3, SwiftUI, zero external dependencies. Use it, fork it, ship it. Bug reports and pull requests welcome.</p>
-  <div class="os-links">
-    <a class="btn-brand" href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="flex-shrink:0"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg> Star on GitHub</a>
-    <a class="btn-outline" href="https://github.com/Arthur-Ficial/apfel-quick/issues" target="_blank" rel="noopener">Report an issue</a>
-    <a class="btn-outline" href="https://github.com/Arthur-Ficial/apfel-quick/releases" target="_blank" rel="noopener">Releases</a>
   </div>
 </section>
 
@@ -1188,12 +807,11 @@ apfel-quick/releases</pre>
   <div class="foot-links">
     <a href="https://github.com/Arthur-Ficial/apfel-quick" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/Arthur-Ficial/apfel-quick/releases" target="_blank" rel="noopener">Releases</a>
-    <a href="https://github.com/Arthur-Ficial/apfel-quick/issues" target="_blank" rel="noopener">Issues</a>
-    <a href="https://apfel-chat.franzai.com" target="_blank" rel="noopener">apfel-chat (full chat app)</a>
-    <a href="https://apfel.franzai.com" target="_blank" rel="noopener">apfel (AI engine)</a>
+    <a href="https://apfel-chat.franzai.com" target="_blank" rel="noopener">apfel-chat</a>
+    <a href="https://apfel.franzai.com" target="_blank" rel="noopener">apfel engine</a>
     <a href="https://github.com/Arthur-Ficial/apfel-quick/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
   </div>
-  <p>Made with care by <a href="https://github.com/Arthur-Ficial">Arthur Ficial</a> · Powered by Apple Intelligence · <a href="https://franzai.com">franzai.com</a></p>
+  <p>Made by <a href="https://github.com/Arthur-Ficial">Arthur Ficial</a> · Powered by Apple Intelligence · <a href="https://franzai.com">franzai.com</a></p>
 </footer>
 
 <script>
@@ -1212,15 +830,20 @@ fetch('https://api.github.com/repos/Arthur-Ficial/apfel-quick/releases')
         if (a.name.indexOf('.zip') !== -1) total += (a.download_count || 0);
       });
     });
-    var btn = document.getElementById('download-btn');
-    var label = document.getElementById('download-label');
-    if (btn) btn.href = url;
-    var text = 'Download ' + tag + ' (arm64)';
-    if (total > 0) text += '  \u00b7  ' + total.toLocaleString() + '\u00a0downloads';
-    if (label) label.textContent = text;
+    ['download-btn','download-btn-2'].forEach(function(id){
+      var btn = document.getElementById(id);
+      if (btn) btn.href = url;
+    });
+    var text = 'Download ' + tag;
+    if (total > 0) text += ' · ' + total.toLocaleString() + ' downloads';
+    ['download-label','download-label-2'].forEach(function(id){
+      var label = document.getElementById(id);
+      if (label) label.textContent = text;
+    });
   })
   .catch(function() {});
 
+// Copy-to-clipboard on code blocks
 document.querySelectorAll('pre').forEach(function(pre) {
   var wrap = document.createElement('div');
   wrap.className = 'pre-wrap';
