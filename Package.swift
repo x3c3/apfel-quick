@@ -1,0 +1,36 @@
+// swift-tools-version: 6.1
+import PackageDescription
+
+let package = Package(
+    name: "apfel-quick",
+    platforms: [.macOS(.v26)],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-testing.git", from: "0.12.0"),
+    ],
+    targets: [
+        .executableTarget(
+            name: "apfel-quick",
+            path: "Sources",
+            resources: [
+                .process("Resources")
+            ],
+            linkerSettings: [
+                .linkedFramework("ServiceManagement"),
+                .unsafeFlags([
+                    "-Xlinker", "-sectcreate",
+                    "-Xlinker", "__TEXT",
+                    "-Xlinker", "__info_plist",
+                    "-Xlinker", "./Info.plist",
+                ])
+            ]
+        ),
+        .testTarget(
+            name: "ApfelQuickTests",
+            dependencies: [
+                "apfel-quick",
+                .product(name: "Testing", package: "swift-testing"),
+            ],
+            path: "Tests"
+        ),
+    ]
+)
