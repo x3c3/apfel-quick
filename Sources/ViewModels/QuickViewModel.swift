@@ -100,6 +100,59 @@ import Observation
         errorMessage = nil
     }
 
+    // MARK: - Launch at login
+
+    func applyLaunchAtLogin() {
+        let controller = SystemLaunchAtLoginController()
+        try? controller.setEnabled(settings.launchAtLogin)
+    }
+
+    // MARK: - Install update
+
+    func installUpdate() {
+        guard case .updateAvailable(let version) = updateState else { return }
+        updateState = .installing(newVersion: version)
+        let isHB = FileManager.default.fileExists(atPath: "/opt/homebrew/Caskroom/apfel-quick")
+        Task.detached { [weak self, version, isHB] in
+            if isHB {
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                process.arguments = ["-c", "brew upgrade apfel-quick"]
+                do {
+                    try process.run()
+                    process.waitUntilExit()
+                    await MainActor.run { self?.updateState = .installed(newVersion: version) }
+                } catch {
+                    await MainActor.run { self?.updateState = .error(message: error.localizedDescription) }
+                }
+            } else {
+                await MainActor.run {
+                    NSWorkspace.shared.open(URL(string: "https://github.com/Arthur-Ficial/apfel-quick/releases/latest")!)
+                    self?.updateState = .idle
+                }
+            }
+        }
+    }
+
+    // MARK: - Manual update check
+
+    func checkForUpdateManual() async {
+        updateState = .checking
+        do {
+            let url = URL(string: "https://api.github.com/repos/Arthur-Ficial/apfel-quick/releases/latest")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let tagName = json["tag_name"] as? String else {
+                updateState = .error(message: "Could not parse release info")
+                return
+            }
+            let latestVersion = tagName.hasPrefix("v") ? String(tagName.dropFirst()) : tagName
+            await handleUpdateCheck(remoteVersion: latestVersion)
+        } catch {
+            updateState = .error(message: error.localizedDescription)
+        }
+    }
+
     // MARK: - Update check
 
     func handleUpdateCheck(remoteVersion: String) async {
