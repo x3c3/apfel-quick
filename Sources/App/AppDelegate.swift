@@ -197,12 +197,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             Task { @MainActor [weak self] in
                 guard let self, let panel = self.panel, panel.isVisible else { return }
                 let clickPoint = event.locationInWindow
-                // Convert screen-space click to panel coordinates
                 let screenPoint: NSPoint
                 if let window = event.window {
                     screenPoint = window.convertPoint(toScreen: clickPoint)
                 } else {
                     screenPoint = clickPoint
+                }
+                // Ignore clicks in the menu bar region (status item clicks are
+                // handled separately by handleStatusItemClick)
+                if let screen = NSScreen.main {
+                    let menuBarHeight: CGFloat = 30
+                    let menuBarTop = screen.frame.maxY
+                    if screenPoint.y >= menuBarTop - menuBarHeight {
+                        return
+                    }
                 }
                 if !panel.frame.contains(screenPoint) {
                     self.hideOverlay()
@@ -215,12 +223,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem?.button?.image = NSImage(
-            systemSymbolName: "bolt.fill",
-            accessibilityDescription: "apfel-quick"
-        )
-        statusItem?.button?.action = #selector(handleStatusItemClick)
-        statusItem?.button?.target = self
+        if let button = statusItem?.button {
+            button.image = NSImage(
+                systemSymbolName: "bolt.fill",
+                accessibilityDescription: "apfel-quick"
+            )
+            button.imagePosition = .imageOnly
+            button.action = #selector(handleStatusItemClick(_:))
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+            button.target = self
+        }
     }
 
     @objc private func handleStatusItemClick(_ sender: NSStatusBarButton) {
