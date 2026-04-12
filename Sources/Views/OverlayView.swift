@@ -6,6 +6,22 @@ struct OverlayView: View {
     @FocusState private var inputFocused: Bool
     @State private var showSettings = false
 
+    /// The send button icon and color change based on state:
+    ///  - idle: arrow.up.circle.fill (purple)
+    ///  - streaming: stop.fill (purple)
+    ///  - justCopied: checkmark.circle.fill (green, 2s)
+    private var sendIcon: String {
+        if viewModel.justCopied { return "checkmark.circle.fill" }
+        if viewModel.isStreaming { return "stop.fill" }
+        return "arrow.up.circle.fill"
+    }
+
+    private var sendColor: Color {
+        viewModel.justCopied
+            ? Color(red: 0.18, green: 0.72, blue: 0.36)
+            : Color(red: 0.55, green: 0.36, blue: 0.96)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // Input row
@@ -18,18 +34,19 @@ struct OverlayView: View {
                     .onSubmit { Task { await viewModel.submit() } }
                     .disabled(viewModel.isStreaming)
 
-                // Send button — works even if onSubmit doesn't fire on some panel setups
+                // Send / stop / copied indicator — same slot, different icon
                 Button {
                     Task { await viewModel.submit() }
                 } label: {
-                    Image(systemName: viewModel.isStreaming ? "stop.fill" : "arrow.up.circle.fill")
-                        .foregroundStyle(Color(red: 0.55, green: 0.36, blue: 0.96))
+                    Image(systemName: sendIcon)
+                        .foregroundStyle(sendColor)
                         .font(.system(size: 20))
+                        .contentTransition(.symbolEffect(.replace))
                 }
                 .buttonStyle(.plain)
                 .keyboardShortcut(.return, modifiers: [])
                 .disabled(viewModel.input.isEmpty && !viewModel.isStreaming)
-                .help("Send (or press Return)")
+                .help(viewModel.justCopied ? "Copied to clipboard" : "Send (or press Return)")
 
                 Button {
                     showSettings = true
@@ -56,19 +73,6 @@ struct OverlayView: View {
                         .padding(20)
                 }
                 .frame(maxHeight: 380)
-                // Floating "copied" badge — overlaid top-right, doesn't push layout
-                .overlay(alignment: .topTrailing) {
-                    if viewModel.justCopied {
-                        CopiedBadge()
-                            .padding(.top, 10)
-                            .padding(.trailing, 14)
-                            .transition(.asymmetric(
-                                insertion: .scale(scale: 0.6).combined(with: .opacity),
-                                removal: .opacity
-                            ))
-                    }
-                }
-                .animation(.spring(response: 0.35, dampingFraction: 0.6), value: viewModel.justCopied)
             }
 
             // Error message
@@ -88,7 +92,6 @@ struct OverlayView: View {
             if viewModel.isStreaming {
                 viewModel.cancel()
             }
-            // AppDelegate handles actual window dismissal
             NotificationCenter.default.post(name: .dismissOverlay, object: nil)
             return .handled
         }
@@ -104,30 +107,4 @@ struct OverlayView: View {
 extension Notification.Name {
     static let dismissOverlay = Notification.Name("ApfelQuick.dismissOverlay")
     static let openSettings = Notification.Name("ApfelQuick.openSettings")
-}
-
-// MARK: - Floating "Copied" badge (never pushes the response out of view)
-
-private struct CopiedBadge: View {
-    var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 13, weight: .bold))
-            Text("Copied")
-                .font(.system(size: 12, weight: .semibold))
-        }
-        .foregroundStyle(.white)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(
-            Capsule()
-                .fill(LinearGradient(
-                    colors: [Color(red: 0.22, green: 0.78, blue: 0.44),
-                             Color(red: 0.14, green: 0.62, blue: 0.32)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                ))
-                .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
-        )
-    }
 }
