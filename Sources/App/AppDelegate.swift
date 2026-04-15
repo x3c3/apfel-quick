@@ -34,7 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - NSApplicationDelegate
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let vm = QuickViewModel()
+        let vm = QuickViewModel(currentVersion: Bundle.main.shortVersion)
         self.viewModel = vm
 
         Task { @MainActor [weak self] in

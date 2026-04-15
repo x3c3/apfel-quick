@@ -78,6 +78,7 @@ struct SettingsView: View {
         .padding(28)
         .frame(width: 480, height: 520)
         .background(.white)
+        .preferredColorScheme(.light)
     }
 
     @ViewBuilder

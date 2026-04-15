@@ -87,6 +87,7 @@ struct OverlayView: View {
         }
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .preferredColorScheme(.light)
         .onAppear { inputFocused = true }
         .onKeyPress(.escape) {
             if viewModel.isStreaming {

@@ -65,6 +65,7 @@ struct WelcomeOverlayView: View {
         .frame(width: 460)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .preferredColorScheme(.light)
     }
 
     private func featureBullet(_ systemImage: String, _ text: String) -> some View {
